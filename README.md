@@ -238,7 +238,7 @@
       noResponse.textContent = msg;
       noClickCount++;
 
-      if (noClickCount === 2) honestyWrap.style.display = 'block';
+      if (noClickCount === 1) honestyWrap.style.display = 'block';
 
       const pct = Math.min((noClickCount / noMessages.length) * 100, 100);
       honestyBar.style.width = pct + '%';
