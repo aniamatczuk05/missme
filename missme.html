@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Important Question 💭</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      max-width: 420px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .question {
+      font-size: 1.4rem;
+      color: #c0392b;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .subtext {
+      font-size: 0.95rem;
+      color: #888;
+      margin-bottom: 25px;
+      font-style: italic;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      min-height: 70px;
+      align-items: center;
+      position: relative;
+    }
+
+    button {
+      padding: 15px 40px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 700;
+    }
+
+    .yes-btn {
+      background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+      color: white;
+    }
+
+    .yes-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 10px 30px rgba(192, 57, 43, 0.5);
+    }
+
+    .no-btn {
+      background: linear-gradient(135deg, #555 0%, #888 100%);
+      color: white;
+      transition: all 0.3s ease, left 0.2s ease, top 0.2s ease;
+      position: relative;
+    }
+
+    .no-btn:hover {
+      transform: scale(0.95);
+    }
+
+    .no-response {
+      color: #c0392b;
+      font-size: 1rem;
+      margin-top: 15px;
+      font-style: italic;
+      min-height: 30px;
+      font-weight: 600;
+    }
+
+    /* Success screen */
+    .success-screen {
+      display: none;
+    }
+
+    .success-screen .emoji-big {
+      font-size: 4rem;
+      margin-bottom: 15px;
+      animation: pulse 0.8s infinite;
+    }
+
+    .success-screen h2 {
+      font-size: 1.8rem;
+      color: #c0392b;
+      margin-bottom: 10px;
+    }
+
+    .success-screen p {
+      font-size: 1.1rem;
+      color: #555;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+
+    .success-screen .spicy {
+      font-size: 1rem;
+      color: #888;
+      font-style: italic;
+      margin-top: 15px;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    .shake {
+      animation: shake 0.3s ease;
+    }
+
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      animation: fall 3s linear forwards;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    .progress-bar-wrap {
+      margin-top: 20px;
+      background: #eee;
+      border-radius: 10px;
+      height: 8px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #c0392b, #e74c3c);
+      border-radius: 10px;
+      transition: width 0.4s ease;
+    }
+
+    .progress-label {
+      font-size: 0.75rem;
+      color: #aaa;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Question Screen -->
+  <div class="container" id="questionScreen">
+    <h1>Oi, you 👀</h1>
+    <p class="question">Do you miss me?</p>
+    <p class="subtext">…and I mean <em>all</em> of me 😏</p>
+
+    <div class="buttons">
+      <button class="yes-btn" onclick="sayYes()">Obviously 🥵</button>
+      <button class="no-btn" id="noBtn" onclick="sayNo()">No 🙄</button>
+    </div>
+
+    <p class="no-response" id="noResponse"></p>
+
+    <div class="progress-bar-wrap" id="honestyWrap" style="display:none">
+      <div class="progress-bar" id="honestyBar"></div>
+      <p class="progress-label">Honesty level loading... 🌡️</p>
+    </div>
+  </div>
+
+  <!-- Success Screen -->
+  <div class="container success-screen" id="successScreen">
+    <div class="emoji-big">🔥</div>
+    <h2>Thought so 😏</h2>
+    <p>You lasted <span id="noCount">0</span> seconds of denial before admitting it.</p>
+    <p style="margin-top:15px; font-size:1.3rem; color:#c0392b; font-weight:700;">
+      Good. Because I miss you too.<br>Every. Single. Part. 😈
+    </p>
+    <p class="spicy">Now stop playing hard to get and text me 📱💋</p>
+  </div>
+
+  <script>
+    const noMessages = [
+      "Sure babe, sure 😏",
+      "Your body disagrees with you 🔥",
+      "Stop lying to yourself, love 💀",
+      "Not even a little? Not even the good stuff? 👀",
+      "Denial looks cute on you, not convincing 😂",
+      "Your brain said no, your heart said otherwise 🫀",
+      "You literally clicked this link though… 🤔",
+      "Come on. You remember. Don't lie. 😈",
+      "That's not what you were thinking last night 💭",
+      "Still no? Bold choice 😂",
+      "Your thumbs came here on their own? Right. 🙄",
+      "The audacity is sending me 💀💀",
+      "Fine, keep lying. The Yes button is right there 😏",
+      "Even your mum thinks you miss me 😂",
+      "Last chance before this button disappears 🏃"
+    ];
+
+    let noClickCount = 0;
+    let startTime = Date.now();
+    const noBtn = document.getElementById('noBtn');
+    const noResponse = document.getElementById('noResponse');
+    const honestyWrap = document.getElementById('honestyWrap');
+    const honestyBar = document.getElementById('honestyBar');
+
+    function sayNo() {
+      const msg = noMessages[Math.min(noClickCount, noMessages.length - 1)];
+      noResponse.textContent = msg;
+
+      noClickCount++;
+
+      // Show honesty bar after 2nd click
+      if (noClickCount === 2) honestyWrap.style.display = 'block';
+
+      // Fill honesty bar
+      const pct = Math.min((noClickCount / noMessages.length) * 100, 100);
+      honestyBar.style.width = pct + '%';
+
+      // Shake button
+      noBtn.classList.add('shake');
+      setTimeout(() => noBtn.classList.remove('shake'), 350);
+
+      // Shrink button
+      const size = Math.max(0.65, 1.1 - noClickCount * 0.04);
+      noBtn.style.fontSize = size + 'rem';
+      noBtn.style.padding = `${Math.max(6, 15 - noClickCount)}px ${Math.max(14, 40 - noClickCount * 2)}px`;
+
+      // Button runs away after 7 clicks
+      if (noClickCount > 7) {
+        const maxX = 100;
+        const maxY = 40;
+        const x = (Math.random() * maxX * 2 - maxX);
+        const y = (Math.random() * maxY * 2 - maxY);
+        noBtn.style.transform = `translate(${x}px, ${y}px)`;
+      }
+
+      // Hide button entirely after 14 clicks
+      if (noClickCount >= noMessages.length) {
+        noBtn.style.opacity = '0';
+        noBtn.style.pointerEvents = 'none';
+        noResponse.textContent = "The No button left the chat. Just press Yes. 😂";
+      }
+    }
+
+    function sayYes() {
+      const elapsed = Math.round((Date.now() - startTime) / 1000);
+      document.getElementById('noCount').textContent = elapsed;
+      document.getElementById('questionScreen').style.display = 'none';
+      document.getElementById('successScreen').style.display = 'block';
+      createConfetti();
+    }
+
+    function createConfetti() {
+      const colors = ['#c0392b', '#e74c3c', '#ff6b6b', '#ff9ff3', '#feca57', '#ff4757'];
+      for (let i = 0; i < 60; i++) {
+        setTimeout(() => {
+          const el = document.createElement('div');
+          el.className = 'confetti';
+          el.style.left = Math.random() * 100 + 'vw';
+          el.style.top = '-10px';
+          el.style.background = colors[Math.floor(Math.random() * colors.length)];
+          el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+          el.style.width = (Math.random() * 8 + 6) + 'px';
+          el.style.height = (Math.random() * 8 + 6) + 'px';
+          document.body.appendChild(el);
+          setTimeout(() => el.remove(), 3500);
+        }, i * 40);
+      }
+    }
+  </script>
+</body>
+</html>
