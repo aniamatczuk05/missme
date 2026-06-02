@@ -208,10 +208,10 @@
     const noMessages = [
       "Sure babe, sure 😏",
       "Your body disagrees with you 🔥",
-      "Stop lying to yourself, love 💀",
-      "Not even a little? Not even the good stuff? 👀",
+      "Stop lying to yourself, daddy 💀",
+      "Not even a little? Not even that tight pussy? 👀",
       "Denial looks cute on you, not convincing 😂",
-      "Your brain said no, your heart said otherwise 🫀",
+      "Your brain said no, your dick said otherwise 🫀",
       "You literally clicked this link though… 🤔",
       "Come on. You remember. Don't lie. 😈",
       "That's not what you were thinking last night 💭",
@@ -261,7 +261,7 @@
       if (noClickCount >= noMessages.length) {
         noBtn.style.opacity = '0';
         noBtn.style.pointerEvents = 'none';
-        noResponse.textContent = "The No button left the chat. Just press Yes. 😂";
+        noResponse.textContent = "The No button left the chat. Just press Obviously. 😂";
       }
     }
 
